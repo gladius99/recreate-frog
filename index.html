@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>recreate frog</title>
+	<meta charset="utf-8">
+	<script src="https://threejs.org/build/three.min.js"></script>
+	<script src="https://threejs.org/examples/js/controls/TrackballControls.js"></script>
+  	<script src="https://threejs.org/examples/js/WebGL.js"></script>
+  	<script src="https://threejs.org/examples/js/loaders/STLLoader.js"></script>
+  	<script src="https://threejs.org/examples/js/libs/stats.min.js"></script>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/ramda/0.25.0/ramda.min.js"></script>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/5.0.0-beta.12/Rx.min.js"></script>
+  	<script type="text/javascript" src="main.js"></script>
+  	<script type="text/javascript" src="util.js"></script>
+</head>
+<body>
+	<div id="menu">
+		<p style="text-align: center">
+			<input type="checkbox" name="body1" id="checkbox1" onclick="addOrRemoveElements('body2', 'checkbox1')">panels</input>
+			<input type="checkbox" name="body2" id="checkbox2" onclick="addOrRemoveElements('body1', 'checkbox2')">frame</input>
+			<input type="checkbox" name="engine" id="checkbox3" onclick="addOrRemoveElements('engine', 'checkbox3')">engine</input>
+			<input type="checkbox" name="transmission" id="checkbox4" onclick="addOrRemoveElements('transmission', 'checkbox4')">transmission</input>
+			<input type="checkbox" name="wheels" id="checkbox5" onclick="addOrRemoveElements('wheels', 'checkbox5')">wheels</input>
+			<input type="checkbox" name="tires" id="checkbox6" onclick="addOrRemoveElements('tires', 'checkbox6')">tires</input>
+			<button onclick="
+			saveAsImage()
+			">take screenshot</button>
+			<input type="range" min="0" max="1" value="0" id="red" step=".01" oninput="changeColor()"></input>
+			<mytag style="padding-right: 20px">red</mytag>
+			<input type="range" min="0" max="1" value="0" id="green" step=".01" oninput="changeColor()"></input>
+			<mytag style="padding-right: 20px">green</mytag>
+			<input type="range" min="0" max="1" value="0" id="blue" step=".01" oninput="changeColor()"></input>
+			<mytag style="padding-right: 20px">blue</mytag>
+			<mytag style="padding: 10px" id="redd">red: 000</mytag>
+			<mytag style="padding: 10px" id="greenn">green: 000</mytag>
+			<mytag style="padding: 10px" id="bluee">blue: 000</mytag>
+		</p>
+		<p style="text-align: center">
+			<input type="range" min="150" max="300" value="218" id="tire-contact-point-length" oninput="changeTireLength(document.getElementById('tire-contact-point-length').value)"></input>
+			<mytag style = "padding-right: 20px">tire contact point length</mytag>
+			<input type="range" min="100" max="250" value="150" id="tire-contact-point-width" oninput="changeTireWidth(document.getElementById('tire-contact-point-width').value)"></input>
+			<mytag style="padding-right: 20px">tire contact point width</mytag>
+			<mytag style="padding: 10px" id="length">length: 218</mytag>
+			<mytag style="padding: 10px" id="width">width: 150</mytag>
+		</p>
+	</div>
+	<div id="div1"></div>
+	<script type="text/javascript">
+		loadAndRender();
+		setTimeout(function(){ init(); }, 600);
+	</script>
+</body>
+</html>
