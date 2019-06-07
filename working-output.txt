@@ -1,0 +1,11 @@
+{
+"case_0": { "length": 150, "width": 100},
+"case_36": { "length": 150, "width": 160},
+"case_72": { "length": 150, "width": 220},
+"case_108": { "length": 210, "width": 100},
+"case_144": { "length": 210, "width": 160},
+"case_180": { "length": 210, "width": 220},
+"case_216": { "length": 270, "width": 100},
+"case_252": { "length": 270, "width": 160},
+"case_288": { "length": 270, "width": 220}
+}

@@ -391,3 +391,33 @@ function changeTireWidth(value) {
 
 	document.getElementById('width').innerHTML = "width: " + value;
 }
+
+function tradeSpace() {
+	changeTireLength(data.case_0.length);
+	changeTireWidth(data.case_0.width);
+	saveAsImage();
+	changeTireLength(data.case_36.length);
+	changeTireWidth(data.case_36.width);
+	saveAsImage();
+	changeTireLength(data.case_72.length);
+	changeTireWidth(data.case_72.width);
+	saveAsImage();
+	changeTireLength(data.case_108.length);
+	changeTireWidth(data.case_108.width);
+	saveAsImage();
+	changeTireLength(data.case_144.length);
+	changeTireWidth(data.case_144.width);
+	saveAsImage();
+	changeTireLength(data.case_180.length);
+	changeTireWidth(data.case_180.width);
+	saveAsImage();
+	changeTireLength(data.case_216.length);
+	changeTireWidth(data.case_216.width);
+	saveAsImage();
+	changeTireLength(data.case_252.length);
+	changeTireWidth(data.case_252.width);
+	saveAsImage();
+	changeTireLength(data.case_288.length);
+	changeTireWidth(data.case_288.width);
+	saveAsImage();
+}
