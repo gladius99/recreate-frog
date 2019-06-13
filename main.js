@@ -395,29 +395,125 @@ function changeTireWidth(value) {
 function tradeSpace() {
 	changeTireLength(data.case_0.length);
 	changeTireWidth(data.case_0.width);
-	saveAsImage();
-	changeTireLength(data.case_36.length);
-	changeTireWidth(data.case_36.width);
-	saveAsImage();
-	changeTireLength(data.case_72.length);
-	changeTireWidth(data.case_72.width);
-	saveAsImage();
-	changeTireLength(data.case_108.length);
-	changeTireWidth(data.case_108.width);
-	saveAsImage();
-	changeTireLength(data.case_144.length);
-	changeTireWidth(data.case_144.width);
-	saveAsImage();
-	changeTireLength(data.case_180.length);
-	changeTireWidth(data.case_180.width);
-	saveAsImage();
-	changeTireLength(data.case_216.length);
-	changeTireWidth(data.case_216.width);
-	saveAsImage();
-	changeTireLength(data.case_252.length);
-	changeTireWidth(data.case_252.width);
-	saveAsImage();
-	changeTireLength(data.case_288.length);
-	changeTireWidth(data.case_288.width);
-	saveAsImage();
+
+	setTimeout(function() {saveImageToServer();}, 1);
+
+	setTimeout(function() {
+		changeTireLength(data.case_36.length);
+		changeTireWidth(data.case_36.width);
+	}, 50);
+
+	setTimeout(function() {saveImageToServer();}, 100);
+
+	setTimeout(function() {
+		changeTireLength(data.case_72.length);
+		changeTireWidth(data.case_72.width);
+	}, 150);
+
+	setTimeout(function() {saveImageToServer();}, 200);
+
+	setTimeout(function() {
+		changeTireLength(data.case_108.length);
+		changeTireWidth(data.case_108.width);
+	}, 250);
+
+	setTimeout(function() {saveImageToServer();}, 300);
+
+	setTimeout(function() {
+		changeTireLength(data.case_144.length);
+		changeTireWidth(data.case_144.width);
+	}, 350);
+
+	setTimeout(function() {saveImageToServer();}, 400);
+
+	setTimeout(function() {
+		changeTireLength(data.case_180.length);
+		changeTireWidth(data.case_180.width);
+	}, 450);
+
+	setTimeout(function() {saveImageToServer();}, 500);
+
+	setTimeout(function() {
+		changeTireLength(data.case_216.length);
+		changeTireWidth(data.case_216.width);
+	}, 550);
+
+	setTimeout(function() {saveImageToServer();}, 600);
+
+	setTimeout(function() {
+		changeTireLength(data.case_252.length);
+		changeTireWidth(data.case_252.width);
+	}, 650);
+
+	setTimeout(function() {saveImageToServer();}, 700);
+
+	setTimeout(function() {
+		changeTireLength(data.case_288.length);
+		changeTireWidth(data.case_288.width);
+	}, 750);
+
+	setTimeout(function() {saveImageToServer();}, 800);
+
+	setTimeout(function() {setUpScreenForCollage()}, 1000);
+}
+
+function saveImageToServer() {
+	tempCamera = g_camera;
+	temp_r = document.getElementById("red").value;
+	temp_g = document.getElementById("green").value;
+	temp_b = document.getElementById("blue").value;
+
+   	g_camera = initialCamera;
+    g_camera.lookAt(g_scene.position);
+   	g_camera.updateProjectionMatrix();
+
+   	g_scene.background = new THREE.Color( 0xcccccc );
+  	g_scene.background = new THREE.Color( 0x000000 );
+	g_scene.background.setRGB(red, green, blue);
+
+   	g_renderer.render(g_scene, g_camera);
+
+   	setTimeout(function() {
+   		var screenshot = g_renderer.domElement.toDataURL();
+		var newElement = document.createElement("IMG");
+		newElement.setAttribute("src", screenshot);
+		newElement.setAttribute("width", "33%");
+		newElement.setAttribute("height", "33%");
+		newElement.setAttribute("alt", "screenshot should be here");
+		document.getElementById("screenshot").appendChild(newElement);
+
+   	}, 1);
+
+   	setTimeout(function() { 
+   		g_camera = tempCamera;
+    	changeColor();
+   	}, 2);
+}
+
+function setUpScreenForCollage() {
+	document.getElementById("menu").style.display = "none";
+	document.getElementById("div1").style.display = "none";
+	var button = document.createElement("BUTTON");
+	button.setAttribute("onclick", "takeScreenShot()");
+	button.setAttribute("id", "screenshot-button");
+	button.innerHTML = "screenshot";
+	document.getElementById("collage-controls").appendChild(button);
+}
+
+
+
+var takeScreenShot = function() {
+    html2canvas(document.getElementById("screenshot"), {
+        onrendered: function (canvas) {
+            var tempcanvas=document.createElement('canvas');
+			tempcanvas.setAttribute("width", canvas.width);
+			tempcanvas.setAttribute("height", canvas.height);
+            var context=tempcanvas.getContext('2d');
+            context.drawImage(canvas, 0, 0, canvas.width, canvas.height);
+            var link=document.createElement("a");
+            link.href=tempcanvas.toDataURL('image/jpg');   //function blocks CORS
+            link.download = 'frog-tradespace.jpg';
+            link.click();
+        }
+    });
 }
