@@ -689,6 +689,9 @@ function createSmallerModal(id, name) {
 	height_info.style.paddingLeft="10px";
 	height_info.style.paddingRight="20px";
 	document.getElementById("info_row").appendChild(height_info);
+
+	document.getElementById("height_slider").value = document.getElementById(g_picture_id).height;
+	document.getElementById("width_slider").value = document.getElementById(g_picture_id).width;
 }
 
 function closeModal() {
@@ -699,7 +702,10 @@ function changePictureSize(value) {
 	document.getElementById(g_picture_id).style.width = value + "px";
 	document.getElementById(g_picture_id).style.height = "auto";
 	document.getElementById("width_info").innerHTML = "width: " + value;
-	document.getElementById("height_info").innerHTML = "height: " + value;
+	document.getElementById("height_info").innerHTML = "height: " + document.getElementById(g_picture_id).height;
+
+	document.getElementById("height_slider").value = document.getElementById(g_picture_id).height;
+	document.getElementById("width_slider").value = document.getElementById(g_picture_id).width;
 }
 
 function changePictureWidth(value) { //only works right if height is adjusted first
@@ -712,6 +718,8 @@ function changePictureWidth(value) { //only works right if height is adjusted fi
 }
 
 function changePictureHeight(value) {
+	document.getElementById("width_slider").value = document.getElementById(g_picture_id).width;
+
 	document.getElementById(g_picture_id).style.height = value + "px";
 	document.getElementById(g_picture_id).style.width= document.getElementById("width_slider").value + "px";
 	document.getElementById("height_info").innerHTML = "height: " + document.getElementById(g_picture_id).height;;
