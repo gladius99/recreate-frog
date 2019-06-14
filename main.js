@@ -20,20 +20,6 @@ var g_tires;
 //global varibale to make adding or removing elements much better
 var g_map = new Map();
 
-//global variables for dragging/dropping modal content
-/*
-var g_initialX;
-var g_initialY;
-var g_active = false;
-var g_currentX;
-var g_currentY;
-var g_xOffset;
-var g_yOffset;
-var g_listener1;
-var g_listener2;
-var g_listener3;
-*/
-
 //global variables I added while trying to figure out the sceenshot
 var strMime = "image/jpeg";
 var imgData = g_renderer.domElement.toDataURL(strMime);
@@ -541,111 +527,6 @@ var takeScreenShot = function() {
     });
 }
 
-function createModal(id, name) {
-	//global variables needed to adjust pictures
-	g_picture_name = name;
-	g_picture_id = id;
-
-	//modal variables
-	var modal = document.createElement("div");
-	var modal_content = document.createElement("div");
-	var closeBtn = document.createElement("span");
-
-	//close button (x)
-	closeBtn.setAttribute("id", "closeBtn");
-	closeBtn.setAttribute("class", "closeBtn");
-	closeBtn.setAttribute("onclick", "closeModal()");
-
-	//the modal itself
-	modal_content.setAttribute("class", "modal_content");
-	modal_content.setAttribute("id", "modal_content");
-	modal_content.appendChild(closeBtn);
-
-	//the big div (tuns background grey)
-	modal.setAttribute("class", "modal");
-	modal.appendChild(modal_content);
-	modal.setAttribute("id", "modal");
-
-	//put modal on screen
-	document.getElementById("screenshot").appendChild(modal);
-	//put x in modal
-	document.getElementById("closeBtn").innerHTML="&times;";
-
-	//create clone of selected picture to put in modal
-	var clone = document.getElementById(id).cloneNode(false);
-	clone.setAttribute("class", "photocopy");
-	clone.setAttribute("id", "clone");
-	clone.setAttribute("onclick", "");
-	clone.style.width = "65%";
-	clone.style.height = "auto";
-	document.getElementById("modal_content").appendChild(clone);
-
-	//create a new row to display picture information
-	var info_row = document.createElement("p");
-	info_row.setAttribute("id", "info_row");
-	document.getElementById("modal_content").appendChild(info_row);
-
-	//create slider to adjust selected picture size
-	//while keeping ratio the same
-	var size_slider = document.createElement("input");
-	size_slider.setAttribute("type", "range");
-	size_slider.setAttribute("id", "size_slider")
-	size_slider.setAttribute("min", "0");
-	size_slider.setAttribute("max", "1000");
-	size_slider.setAttribute("step", "1");
-	size_slider.setAttribute("value", "window.innerWidth/3");
-	size_slider.innerHTML = window.innerWidth/3;
-	size_slider.setAttribute("oninput", "changePictureSize(this.value)");
-	document.getElementById("info_row").appendChild(size_slider);
-
-	//label for size slider
-	var size_info = document.createElement("mytag");
-	size_info.setAttribute("id", "size_info");
-	size_info.innerHTML = "size";
-	size_info.style.paddingRight="20px";
-	size_info.style.paddingLeft="10px";
-	document.getElementById("info_row").appendChild(size_info);
-
-	//create slider to adjust selected picture width
-	var width_slider = document.createElement("input");
-	width_slider.setAttribute("type", "range");
-	width_slider.setAttribute("id", "width_slider")
-	width_slider.setAttribute("min", "0");
-	width_slider.setAttribute("max", "1000");
-	width_slider.setAttribute("step", "1");
-	width_slider.setAttribute("value", "window.innerWidth/3");
-	width_slider.setAttribute("oninput", "changePictureWidth(this.value)");
-	document.getElementById("info_row").appendChild(width_slider);
-
-	//display width info
-	var width_info = document.createElement("mytag");
-	width_info.setAttribute("id", "width_info");
-	width_info.innerHTML="width: " + document.getElementById(id).width;
-	width_info.style.paddingRight="20px";
-	width_info.style.paddingLeft="10px";
-	document.getElementById("info_row").appendChild(width_info);
-
-	//create slider to adjust selected picture height
-	var height_slider = document.createElement("input");
-	height_slider.setAttribute("type", "range");
-	height_slider.setAttribute("id", "height_slider")
-	height_slider.setAttribute("min", "0");
-	height_slider.setAttribute("max", "1000");
-	height_slider.setAttribute("step", "1");
-	height_slider.setAttribute("value", "window.innerWidth/3");
-	height_slider.setAttribute("oninput", "changePictureHeight(this.value)");
-	//height_slider.style.left = "65%";
-	document.getElementById("info_row").appendChild(height_slider);
-
-	//display height info
-	var height_info = document.createElement("mytag");
-	height_info.setAttribute("id", "height_info");
-	height_info.innerHTML="height: " + document.getElementById(id).height;
-	height_info.style.paddingLeft="10px";
-	height_info.style.paddingRight="20px";
-	document.getElementById("info_row").appendChild(height_info);
-}
-
 function createSmallerModal(id, name) {
 	console.log("smaller Modal");
 	//global variables needed to adjust pictures
@@ -666,39 +547,19 @@ function createSmallerModal(id, name) {
 	modal_content.setAttribute("class", "smaller_modal_content");
 	modal_content.setAttribute("id", "modal_content");
 	modal_content.appendChild(closeBtn);
-	//may take out
-	//modal_content.setAttribute("draggable", "true");
-	//modal_content.setAttribute("droppable", "true");
-	//modal_content.setAttribute("moveable", "true");
 
 	//the big div (tuns background grey)
 	modal.setAttribute("class", "smaller_modal");
 	modal.appendChild(modal_content);
 	modal.setAttribute("id", "modal");
 
-	//make the modal content draggable on the modal
-	//g_listener1 = modal.addEventListener("mousedown", dragStart, false);
-	//g_listener2 = modal.addEventListener("mouseup", dragEnd, false);
-	//g_listener3 = modal.addEventListener("mousemove", drag, false);
-
 	//put modal on screen
 	document.getElementById("screenshot").appendChild(modal);
 	//put x in modal
 	document.getElementById("closeBtn").innerHTML="&times;";
 
-	//create clone of selected picture to put in modal
-	/*
-	var clone = document.getElementById(id).cloneNode(false);
-	clone.setAttribute("class", "photocopy");
-	clone.setAttribute("id", "clone");
-	clone.setAttribute("onclick", "");
-	clone.style.width = "65%";
-	clone.style.height = "auto";
-	document.getElementById("modal_content").appendChild(clone);
-	*/
-
-	//var dragItem = document.querySelector("#item");
-    //var container = document.querySelector("#container");
+	//between these lines is the code that makes mogal content draggable
+	//==============================================================================
     var dragItem = document.getElementById("modal_content");
     var container = document.getElementById("modal");
 
@@ -762,6 +623,7 @@ function createSmallerModal(id, name) {
     function setTranslate(xPos, yPos, el) {
       el.style.transform = "translate3d(" + xPos + "px, " + yPos + "px, 0)";
     }
+    //==================================================================================
 
 	//create a new row to display picture information
 	var info_row = document.createElement("p");
@@ -840,16 +702,18 @@ function changePictureSize(value) {
 	document.getElementById("height_info").innerHTML = "height: " + value;
 }
 
-function changePictureWidth(value) {
+function changePictureWidth(value) { //only works right if height is adjusted first
+	document.getElementById("height_slider").value = document.getElementById(g_picture_id).height;
+
 	document.getElementById(g_picture_id).style.width = value + "px";
-	document.getElementById(g_picture_id).style.height = document.getElementById("height_slider").value + "px";
+	document.getElementById(g_picture_id).style.height = document.getElementById("height_slider").value + "px"; //problem should be in this line
 	document.getElementById("height_info").innerHTML = "height: " + document.getElementById(g_picture_id).height;;
 	document.getElementById("width_info").innerHTML = "width: " + document.getElementById(g_picture_id).width;
 }
 
 function changePictureHeight(value) {
 	document.getElementById(g_picture_id).style.height = value + "px";
-	document.getElementById(g_picture_id).style.width= document.getElementById("width_slider").value;
+	document.getElementById(g_picture_id).style.width= document.getElementById("width_slider").value + "px";
 	document.getElementById("height_info").innerHTML = "height: " + document.getElementById(g_picture_id).height;;
 	document.getElementById("width_info").innerHTML = "width: " + document.getElementById(g_picture_id).width;
 }
@@ -858,44 +722,4 @@ function outsideClick(e) {
 	if(e.target == modal) {
 		document.getElementById("screenshot").removeChild(document.getElementById("modal"));
 	}
-}
-
-function dragStart(e) {
-	console.log("drag start");
-	if(e.target == document.getElementById("modal_content")); {
-		g_initialX = e.clientX - g_xOffset;
-		g_initialY = e.clientY - g_yOffset;
-
-		g_active = true;
-	}
-}
-
-function drag(e) {
-	console.log("drag");
-	if (g_active) {
-		e.preventDefault();
-
-		currentX = e.clientX - g_initialX;
-		currentY = e.clientY - g_initialX;
-
-		g_xOffset = g_currentX;
-		g_yOffset = g_currentY;
-
-		setTranslate(currentX, currentY, document.getElementById("modal_content"));
-	}
-
-	console.log("in drag, active is " + g_active);
-}
-
-function dragEnd(e) {
-	console.log("drag end");
-	g_initialX = g_currentX;
-	g_initialY = g_currentY;
-
-	g_active = false;
-}
-
-function setTranslate(xPos, yPos, el) {
-	console.log("translate");
-	el.style.transform = "translate3d(" + xPos + "px, " + yPos + "px, 0)";
 }
