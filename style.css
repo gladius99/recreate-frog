@@ -1,0 +1,69 @@
+.modal {
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal_content {
+	background-color: #f4f4f4;
+	margin: 5% auto;
+	padding: 20px;
+	width: 90%;
+	height: 80%;
+	box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
+	text-align: center;
+}
+
+.closeBtn {
+	color: #ccc;
+	float: right;
+	font-size: 30px;
+}
+
+.closeBtn:hover,.closeBtn:focus {
+	color: black;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+input:hover, button:hover {
+	cursor: pointer;
+}
+
+.photocopy {
+	width: 65%;
+	height: auto;
+}
+
+.picture:hover {
+	cursor: pointer;
+}
+
+.smaller_modal {
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+.smaller_modal_content {
+	background-color: #f4f4f4;
+	margin: 5%;
+	padding: 20px;
+	display: inline-block;
+	text-align: center;
+	/*height: 10%;*/
+	box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
+	text-align: center;
+	/*float: center;*/
+	z-index: 100000;
+}
