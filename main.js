@@ -191,7 +191,6 @@ function saveAsImage() {
 }
 
 var saveFile = function (strData, filename) {
- 	console.log("saveFile function");
     var link = document.createElement('a');
     if (typeof link.download === 'string') {
         document.body.appendChild(link); //Firefox requires the link to be in the body
@@ -224,11 +223,22 @@ function addOrRemoveElements(key, id) {
 		g_map.get("tire_lr").visible = checked;
 		g_map.get("tire_rr").visible = checked;
 	}
+
+	try {
+		g_picture_map.set("checkboxes" + g_picture_name, [
+			document.getElementById("checkbox1").checked,
+			document.getElementById("checkbox2").checked,
+			document.getElementById("checkbox3").checked,
+			document.getElementById("checkbox4").checked,
+			document.getElementById("checkbox5").checked,
+			document.getElementById("checkbox6").checked
+		]);
+	} catch {
+		console.log("problem with g_picture variables");
+	}
 }
 
 function changeColor() {
-	console.log("in changeColor");
-
 	var red = document.getElementById("red").value;
 	var green = document.getElementById("green").value;
 	var blue = document.getElementById("blue").value;
@@ -514,6 +524,14 @@ function saveImageToServer() {
 		g_picture_map.set("picture" + g_picture_name_variable, newElement);
 		g_picture_map.set("length" + g_picture_name_variable, g_length);
 		g_picture_map.set("width" + g_picture_name_variable, g_width);
+		g_picture_map.set("checkboxes" + g_picture_name_variable, [
+			document.getElementById("checkbox1").checked,
+			document.getElementById("checkbox2").checked,
+			document.getElementById("checkbox3").checked,
+			document.getElementById("checkbox4").checked,
+			document.getElementById("checkbox5").checked,
+			document.getElementById("checkbox6").checked
+		]);
 		g_picture_name_variable++;
    	}, 1);
 
@@ -531,8 +549,6 @@ function setUpScreenForCollage() {
 	button.setAttribute("id", "screenshot-button");
 	button.innerHTML = "screenshot";
 	document.getElementById("collage-controls").appendChild(button);
-
-	console.log(g_picture_map);
 }
 
 var takeScreenShot = function() {
@@ -552,7 +568,6 @@ var takeScreenShot = function() {
 }
 
 function createSmallerModal(id, name) {
-	console.log("smaller Modal");
 	//global variables needed to adjust pictures
 	g_picture_name = name;
 	g_picture_id = id;
@@ -769,7 +784,6 @@ function outsideClick(e) {
 }
 
 function reopen3D() {
-	console.log("button pressed");
 	document.getElementById("menu").style.display = "block";
 	document.getElementById("div1").style.display = "block";
 	document.getElementById("screenshot").style.display = "none";
@@ -781,10 +795,22 @@ function reopen3D() {
 	var width = g_picture_map.get("width" + g_picture_name);
 	var length = g_picture_map.get("length" + g_picture_name);
 
-	console.log("length: " + length + " " + "width: " + width);
-
 	changeTireLength(length);
 	changeTireWidth(width);
+
+	document.getElementById("checkbox1").checked = g_picture_map.get("checkboxes" + g_picture_name)[0];
+	document.getElementById("checkbox2").checked = g_picture_map.get("checkboxes" + g_picture_name)[1];
+	document.getElementById("checkbox3").checked = g_picture_map.get("checkboxes" + g_picture_name)[2];
+	document.getElementById("checkbox4").checked = g_picture_map.get("checkboxes" + g_picture_name)[3];
+	document.getElementById("checkbox5").checked = g_picture_map.get("checkboxes" + g_picture_name)[4];
+	document.getElementById("checkbox6").checked = g_picture_map.get("checkboxes" + g_picture_name)[5];
+
+	addOrRemoveElements('body2', 'checkbox1');
+	addOrRemoveElements('body1', 'checkbox2');
+	addOrRemoveElements('engine', 'checkbox3');
+	addOrRemoveElements('transmission', 'checkbox4');
+	addOrRemoveElements('wheels', 'checkbox5');
+	addOrRemoveElements('tires', 'checkbox6');
 
    	g_camera = g_camera_init.clone();
     g_camera.lookAt(g_scene.position);
@@ -802,15 +828,12 @@ function reopen3D() {
 }
 
 function goBackToCollage() {
-	console.log("go back to collage");
-
 	document.getElementById("menu").style.display = "none";
 	document.getElementById("div1").style.display = "none";
 	document.getElementById("collage-controls").style.display = "block";
 	document.getElementById("screenshot").style.display = "block";
 
 	var change_picture = g_picture_map.get(g_picture_id);
-	console.log(change_picture);
 
 	replacePicture();
 
