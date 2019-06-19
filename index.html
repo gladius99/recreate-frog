@@ -20,7 +20,7 @@
 </head>
 <body>
 	<div id="menu">
-		<p style="text-align: center">
+		<p style="text-align: center" id="row1">
 			<input type="checkbox" name="body1" id="checkbox1" onclick="addOrRemoveElements('body2', 'checkbox1')">panels</input>
 			<input type="checkbox" name="body2" id="checkbox2" onclick="addOrRemoveElements('body1', 'checkbox2')">frame</input>
 			<input type="checkbox" name="engine" id="checkbox3" onclick="addOrRemoveElements('engine', 'checkbox3')">engine</input>
@@ -40,14 +40,14 @@
 			<mytag style="padding: 10px" id="greenn">green: 000</mytag>
 			<mytag style="padding: 10px" id="bluee">blue: 000</mytag>
 		</p>
-		<p style="text-align: center">
+		<p style="text-align: center" id="row2">
 			<input type="range" min="150" max="300" value="218" id="tire-contact-point-length" oninput="changeTireLength(document.getElementById('tire-contact-point-length').value)"></input>
 			<mytag style = "padding-right: 20px">tire contact point length</mytag>
 			<input type="range" min="100" max="250" value="150" id="tire-contact-point-width" oninput="changeTireWidth(document.getElementById('tire-contact-point-width').value)"></input>
 			<mytag style="padding-right: 20px">tire contact point width</mytag>
 			<mytag style="padding: 10px" id="length">length: 218</mytag>
 			<mytag style="padding: 10px" id="width">width: 150</mytag>
-			<button onclick="importTheStuff()">tradespace</button>
+			<button onclick="importTheStuff()" id="tradespace">tradespace</button>
 		</p>
 	</div>
 	<div id="div1"></div>

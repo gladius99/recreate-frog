@@ -1,5 +1,6 @@
 //initial global variables
 var g_camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 10000);
+var g_camera_init = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 10000);
 const g_scene = new THREE.Scene();
 const g_material = new THREE.MeshPhongMaterial({
 	color: 0x666666,
@@ -10,15 +11,19 @@ const g_renderer = new THREE.WebGLRenderer({
 	preserveDrawingBuffer: true
 });
 const g_loader = new THREE.STLLoader();	
+var g_trackballControls;
+var g_trackballControls_init;
 var g_body1;
 var g_body2;
 var g_transmission;
 var g_engine;
 var g_wheels;
 var g_tires;
+var g_clock;
 
-//global varibale to make adding or removing elements much better
+//global varibale to make adding or removing elements much better (and other maps)
 var g_map = new Map();
+var g_picture_map = new Map();
 
 //global variables I added while trying to figure out the sceenshot
 var strMime = "image/jpeg";
@@ -43,6 +48,10 @@ var g_picture_id;
 //listen for clicks outside the modal
 window.addEventListener('click', outsideClick);
 
+//global variables for getting back to 3d
+var g_width;
+var g_length;
+
 
 function init() {
 	document.getElementById("checkbox1").checked = true;
@@ -51,6 +60,8 @@ function init() {
 	document.getElementById("checkbox4").checked = true;
 	document.getElementById("checkbox5").checked = true;
 	document.getElementById("checkbox6").checked = true;
+
+	document.body.scrollTop = document.documentElement.scrollTop = 0;
 }
 
 function loadAndRender() {
@@ -118,13 +129,17 @@ function loadAndRender() {
 	g_camera.position.set(0, 0, 510); 
 	g_camera.lookAt(g_scene.position);
 
+	g_camera_init.position.set(0, 0, 510); 
+	g_camera_init.lookAt(g_scene.position);
+
 	document.getElementById("div1").appendChild(g_renderer.domElement);
 
-	var trackballControls = initTrackballControls(g_camera, g_renderer);
-	var clock = new THREE.Clock();
+	g_trackballControls_init = initTrackballControls(g_camera, g_renderer);
+	g_trackballControls = initTrackballControls(g_camera, g_renderer);
+	g_clock = new THREE.Clock();
 
 	function animate() {
-		trackballControls.update(clock.getDelta());
+		g_trackballControls.update(g_clock.getDelta());
 		requestAnimationFrame(animate);
 		g_renderer.render(g_scene, g_camera);
 	}
@@ -367,6 +382,8 @@ function changeTireLength(value) {
 	wheel_rf.position.x = tire_rf.position.x;
 	wheel_rr.position.x = tire_rr.position.x;
 
+	g_length = value;
+
 	document.getElementById('length').innerHTML = "length: " + value;
 }
 
@@ -395,6 +412,8 @@ function changeTireWidth(value) {
 
 	wheel_lr.position.y = tire_lr.position.y;
 	wheel_rr.position.y = tire_rr.position.y;
+
+	g_width = value;
 
 	document.getElementById('width').innerHTML = "width: " + value;
 }
@@ -492,6 +511,9 @@ function saveImageToServer() {
 		newElement.setAttribute("name", g_picture_name_variable);
 		newElement.setAttribute("class", "picture");
 		document.getElementById("screenshot").appendChild(newElement);
+		g_picture_map.set("picture" + g_picture_name_variable, newElement);
+		g_picture_map.set("length" + g_picture_name_variable, g_length);
+		g_picture_map.set("width" + g_picture_name_variable, g_width);
 		g_picture_name_variable++;
    	}, 1);
 
@@ -509,6 +531,8 @@ function setUpScreenForCollage() {
 	button.setAttribute("id", "screenshot-button");
 	button.innerHTML = "screenshot";
 	document.getElementById("collage-controls").appendChild(button);
+
+	console.log(g_picture_map);
 }
 
 var takeScreenShot = function() {
@@ -636,10 +660,8 @@ function createSmallerModal(id, name) {
 	size_slider.setAttribute("type", "range");
 	size_slider.setAttribute("id", "size_slider")
 	size_slider.setAttribute("min", "0");
-	size_slider.setAttribute("max", "1000");
+	size_slider.setAttribute("max", "1500");
 	size_slider.setAttribute("step", "1");
-	size_slider.setAttribute("value", "window.innerWidth/3");
-	size_slider.innerHTML = window.innerWidth/3;
 	size_slider.setAttribute("oninput", "changePictureSize(this.value)");
 	document.getElementById("info_row").appendChild(size_slider);
 
@@ -656,9 +678,8 @@ function createSmallerModal(id, name) {
 	width_slider.setAttribute("type", "range");
 	width_slider.setAttribute("id", "width_slider")
 	width_slider.setAttribute("min", "0");
-	width_slider.setAttribute("max", "1000");
+	width_slider.setAttribute("max", "1500");
 	width_slider.setAttribute("step", "1");
-	width_slider.setAttribute("value", "window.innerWidth/3");
 	width_slider.setAttribute("oninput", "changePictureWidth(this.value)");
 	document.getElementById("info_row").appendChild(width_slider);
 
@@ -675,9 +696,8 @@ function createSmallerModal(id, name) {
 	height_slider.setAttribute("type", "range");
 	height_slider.setAttribute("id", "height_slider")
 	height_slider.setAttribute("min", "0");
-	height_slider.setAttribute("max", "1000");
+	height_slider.setAttribute("max", "1500");
 	height_slider.setAttribute("step", "1");
-	height_slider.setAttribute("value", "window.innerWidth/3");
 	height_slider.setAttribute("oninput", "changePictureHeight(this.value)");
 	//height_slider.style.left = "65%";
 	document.getElementById("info_row").appendChild(height_slider);
@@ -690,8 +710,18 @@ function createSmallerModal(id, name) {
 	height_info.style.paddingRight="20px";
 	document.getElementById("info_row").appendChild(height_info);
 
+	//button to go back to 3d enviornment with parameters of selected picture
+	var threeD_button = document.createElement("button");
+	threeD_button.setAttribute("id", "threeD_button");
+	threeD_button.setAttribute("class", "threeD_button");
+	threeD_button.setAttribute("onclick", "reopen3D()");
+	threeD_button.innerHTML = "open in 3d";
+	document.getElementById("modal_content").appendChild(threeD_button);
+
+	//init values of width and height sliders
 	document.getElementById("height_slider").value = document.getElementById(g_picture_id).height;
 	document.getElementById("width_slider").value = document.getElementById(g_picture_id).width;
+	document.getElementById("size_slider").value = document.getElementById(g_picture_id).width;
 }
 
 function closeModal() {
@@ -727,7 +757,108 @@ function changePictureHeight(value) {
 }
 
 function outsideClick(e) {
-	if(e.target == modal) {
-		document.getElementById("screenshot").removeChild(document.getElementById("modal"));
-	}
+	try {
+		if(e.target == modal) {
+			document.getElementById("screenshot").removeChild(document.getElementById("modal"));
+		} else {
+			//console.log("clicked outside of modal content");
+		}
+	} catch {
+		//console.log("modal does not exist");
+	}	
+}
+
+function reopen3D() {
+	console.log("button pressed");
+	document.getElementById("menu").style.display = "block";
+	document.getElementById("div1").style.display = "block";
+	document.getElementById("screenshot").style.display = "none";
+
+	var change_button = document.getElementById("tradespace");
+	change_button.setAttribute("onclick", "goBackToCollage()");
+	change_button.innerHTML = "back to collage";
+
+	var width = g_picture_map.get("width" + g_picture_name);
+	var length = g_picture_map.get("length" + g_picture_name);
+
+	console.log("length: " + length + " " + "width: " + width);
+
+	changeTireLength(length);
+	changeTireWidth(width);
+
+   	g_camera = g_camera_init.clone();
+    g_camera.lookAt(g_scene.position);
+   	g_camera.updateProjectionMatrix();
+
+   	g_scene.background = new THREE.Color( 0xcccccc );
+  	g_scene.background = new THREE.Color( 0x000000 );
+	g_scene.background.setRGB(red, green, blue);
+
+	g_trackballControls = initTrackballControls(g_camera, g_renderer);
+	g_trackballControls.update(g_clock.getDelta());
+   	g_renderer.render(g_scene, g_camera);
+
+	document.body.scrollTop = document.documentElement.scrollTop = 0;
+}
+
+function goBackToCollage() {
+	console.log("go back to collage");
+
+	document.getElementById("menu").style.display = "none";
+	document.getElementById("div1").style.display = "none";
+	document.getElementById("collage-controls").style.display = "block";
+	document.getElementById("screenshot").style.display = "block";
+
+	var change_picture = g_picture_map.get(g_picture_id);
+	console.log(change_picture);
+
+	replacePicture();
+
+	document.getElementById("screenshot").removeChild(document.getElementById("modal"));
+
+	document.body.scrollTop = document.documentElement.scrollTop = 0;
+}
+
+function replacePicture() {
+	tempCamera = g_camera;
+	temp_r = document.getElementById("red").value;
+	temp_g = document.getElementById("green").value;
+	temp_b = document.getElementById("blue").value;
+
+   	g_camera = initialCamera;
+    g_camera.lookAt(g_scene.position);
+   	g_camera.updateProjectionMatrix();
+
+   	g_scene.background = new THREE.Color( 0xcccccc );
+  	g_scene.background = new THREE.Color( 0x000000 );
+	g_scene.background.setRGB(red, green, blue);
+
+   	g_renderer.render(g_scene, g_camera);
+
+   	setTimeout(function() {
+   		var screenshot = g_renderer.domElement.toDataURL();
+		var newElement = document.createElement("IMG");
+		newElement.setAttribute("src", screenshot);
+		newElement.setAttribute("width", "33%");
+		newElement.setAttribute("height", "33%");
+		newElement.setAttribute("alt", "screenshot should be here");
+		//newElement.setAttribute("id", "picture" + g_picture_name);
+		newElement.setAttribute("onclick", "createSmallerModal(this.id, this.name)");
+		newElement.setAttribute("name", g_picture_name);
+		newElement.setAttribute("class", "picture");
+		//document.getElementById("screenshot").appendChild(newElement);
+		g_picture_map.set("picture" + g_picture_name, newElement);
+		g_picture_map.set("length" + g_picture_name, g_length);
+		g_picture_map.set("width" + g_picture_name, g_width);
+   	}, 1);
+
+   	setTimeout(function() { 
+   		g_camera = tempCamera;
+    	changeColor();
+   	}, 2);
+
+   	setTimeout(function() {
+   		var picture_source = g_picture_map.get(g_picture_id).src;
+   		document.getElementById(g_picture_id).setAttribute("src", picture_source);
+   	}, 3);
 }
