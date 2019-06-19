@@ -144,7 +144,7 @@ function loadAndRender() {
 		g_renderer.render(g_scene, g_camera);
 	}
 	//animate();
-	setTimeout(function(){ animate(); }, 500);
+	setTimeout(function(){ animate(); }, 1200);
 
 	function onResize() {
 		g_camera.aspect = window.innerWidth / window.innerHeight;
@@ -363,7 +363,7 @@ function loadAndRenderTiresAndWheels() {
   		g_scene.add(g_map.get("tire_rf"));
   		g_scene.add(g_map.get("tire_lr"));
   		g_scene.add(g_map.get("tire_rr"));
-	}, 200);
+	}, 500);
 }
 
 function changeTireLength(value) {
