@@ -674,6 +674,7 @@ function createSmallerModal(id, name) {
 	var size_slider = document.createElement("input");
 	size_slider.setAttribute("type", "range");
 	size_slider.setAttribute("id", "size_slider")
+	size_slider.setAttribute("class", "slider")
 	size_slider.setAttribute("min", "0");
 	size_slider.setAttribute("max", "1500");
 	size_slider.setAttribute("step", "1");
@@ -692,6 +693,7 @@ function createSmallerModal(id, name) {
 	var width_slider = document.createElement("input");
 	width_slider.setAttribute("type", "range");
 	width_slider.setAttribute("id", "width_slider")
+	width_slider.setAttribute("class", "slider")
 	width_slider.setAttribute("min", "0");
 	width_slider.setAttribute("max", "1500");
 	width_slider.setAttribute("step", "1");
@@ -709,12 +711,12 @@ function createSmallerModal(id, name) {
 	//create slider to adjust selected picture height
 	var height_slider = document.createElement("input");
 	height_slider.setAttribute("type", "range");
-	height_slider.setAttribute("id", "height_slider")
+	height_slider.setAttribute("id", "height_slider");
+	height_slider.setAttribute("class", "slider");
 	height_slider.setAttribute("min", "0");
 	height_slider.setAttribute("max", "1500");
 	height_slider.setAttribute("step", "1");
 	height_slider.setAttribute("oninput", "changePictureHeight(this.value)");
-	//height_slider.style.left = "65%";
 	document.getElementById("info_row").appendChild(height_slider);
 
 	//display height info

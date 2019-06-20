@@ -18,40 +18,68 @@
   	<script type="text/javascript" src="importJSON.js"></script>
   	<link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body style="background-color: #D5E9FF;">
 	<div id="menu">
 		<p style="text-align: center" id="row1">
-			<input type="checkbox" name="body1" id="checkbox1" onclick="addOrRemoveElements('body2', 'checkbox1')">panels</input>
+			<!--
+			<input type="checkbox" name="body1" id="checkbox1" onclick="addOrRemoveElements('body2', 'checkbox1')" class="styled-checkbox">panels</input>
 			<input type="checkbox" name="body2" id="checkbox2" onclick="addOrRemoveElements('body1', 'checkbox2')">frame</input>
 			<input type="checkbox" name="engine" id="checkbox3" onclick="addOrRemoveElements('engine', 'checkbox3')">engine</input>
 			<input type="checkbox" name="transmission" id="checkbox4" onclick="addOrRemoveElements('transmission', 'checkbox4')">transmission</input>
 			<input type="checkbox" name="wheels" id="checkbox5" onclick="addOrRemoveElements('wheels', 'checkbox5')">wheels</input>
 			<input type="checkbox" name="tires" id="checkbox6" onclick="addOrRemoveElements('tires', 'checkbox6')">tires</input>
+		-->
+
+			<label class="container">panels
+			  	<input type="checkbox" name="body1" id="checkbox1" onclick="addOrRemoveElements('body2', 'checkbox1')" class="styled-checkbox"></input>
+			  	<span class="checkmark"></span>
+			</label>
+			<label class="container">frame
+			  	<input type="checkbox" name="body2" id="checkbox2" onclick="addOrRemoveElements('body1', 'checkbox2')"></input>
+			  	<span class="checkmark"></span>
+			</label>
+			<label class="container">engine
+			 	<input type="checkbox" name="engine" id="checkbox3" onclick="addOrRemoveElements('engine', 'checkbox3')"></input>
+			  	<span class="checkmark"></span>
+			</label>
+			<label class="container">transmission
+			  	<input type="checkbox" name="transmission" id="checkbox4" onclick="addOrRemoveElements('transmission', 'checkbox4')"></input>
+			  	<span class="checkmark"></span>
+			</label>
+			<label class="container">wheels
+			  	<input type="checkbox" name="wheels" id="checkbox5" onclick="addOrRemoveElements('wheels', 'checkbox5')"></input>
+			  	<span class="checkmark"></span>
+			</label>  	
+			<label class="container">tires
+			  	<input type="checkbox" name="tires" id="checkbox6" onclick="addOrRemoveElements('tires', 'checkbox6')"></input>
+			  	<span class="checkmark"></span>
+			</label>
+
 			<button onclick="
 			saveAsImage() 
-			">take screenshot</button>
-			<input type="range" min="0" max="1" value="0" id="red" step=".01" oninput="changeColor()"></input>
+			" class="control_buttons">take screenshot</button>
+			<input type="range" min="0" max="1" value="0" id="red" step=".01" oninput="changeColor()" class="slider"></input>
 			<mytag style="padding-right: 20px">red</mytag>
-			<input type="range" min="0" max="1" value="0" id="green" step=".01" oninput="changeColor()"></input>
+			<input type="range" min="0" max="1" value="0" id="green" step=".01" oninput="changeColor()" class="slider"></input>
 			<mytag style="padding-right: 20px">green</mytag>
-			<input type="range" min="0" max="1" value="0" id="blue" step=".01" oninput="changeColor()"></input>
+			<input type="range" min="0" max="1" value="0" id="blue" step=".01" oninput="changeColor()" class="slider"></input>
 			<mytag style="padding-right: 20px">blue</mytag>
 			<mytag style="padding: 10px" id="redd">red: 000</mytag>
 			<mytag style="padding: 10px" id="greenn">green: 000</mytag>
 			<mytag style="padding: 10px" id="bluee">blue: 000</mytag>
 		</p>
 		<p style="text-align: center" id="row2">
-			<input type="range" min="150" max="300" value="218" id="tire-contact-point-length" oninput="changeTireLength(document.getElementById('tire-contact-point-length').value)"></input>
+			<input type="range" min="150" max="300" value="218" id="tire-contact-point-length" oninput="changeTireLength(document.getElementById('tire-contact-point-length').value)" class="slider"></input>
 			<mytag style = "padding-right: 20px">tire contact point length</mytag>
-			<input type="range" min="100" max="250" value="150" id="tire-contact-point-width" oninput="changeTireWidth(document.getElementById('tire-contact-point-width').value)"></input>
+			<input type="range" min="100" max="250" value="150" id="tire-contact-point-width" oninput="changeTireWidth(document.getElementById('tire-contact-point-width').value)" class="slider"></input>
 			<mytag style="padding-right: 20px">tire contact point width</mytag>
 			<mytag style="padding: 10px" id="length">length: 218</mytag>
 			<mytag style="padding: 10px" id="width">width: 150</mytag>
-			<button onclick="importTheStuff()" id="tradespace">tradespace</button>
+			<button onclick="importTheStuff()" id="tradespace" class="control_buttons">tradespace</button>
 		</p>
 	</div>
 	<div id="div1"></div>
-	<div id="collage-controls"></div>
+	<div id="collage-controls" style="padding-bottom: 5px;"></div>
 	<div id="screenshot"></div>
 	<script type="text/javascript">
 		loadAndRender();
