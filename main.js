@@ -52,6 +52,11 @@ window.addEventListener('click', outsideClick);
 var g_width;
 var g_length;
 
+//global variables for morphing wheels and tires
+var g_scale_1 = 1;
+var g_scale_2 = 1;
+var g_scale_3 = 1;
+
 
 function init() {
 	document.getElementById("checkbox1").checked = true;
@@ -143,7 +148,7 @@ function loadAndRender() {
 		requestAnimationFrame(animate);
 		g_renderer.render(g_scene, g_camera);
 	}
-	//animate();
+
 	setTimeout(function(){ animate(); }, 1200);
 
 	function onResize() {
@@ -426,6 +431,78 @@ function changeTireWidth(value) {
 	g_width = value;
 
 	document.getElementById('width').innerHTML = "width: " + value;
+}
+
+function resizeWheels(value) {
+	var geom = g_map.get("example_wheel").geometry.clone();
+	var scale = value/100;
+
+	g_scale_1 = scale;
+	g_scale_2 = scale;
+
+	geom.scale(scale, scale, g_scale_3);
+
+	g_map.get("wheel_lf").geometry = geom.clone();
+	g_map.get("wheel_rf").geometry = geom.clone();
+	g_map.get("wheel_lr").geometry = geom.clone();
+	g_map.get("wheel_rr").geometry = geom.clone();
+	//var display = g_map.get("wheel_lf").geometry.boundingSphere.radius;
+	var display = ((g_map.get("wheel_lf").geometry.boundingBox.max.y) - (g_map.get("wheel_lf").geometry.boundingBox.min.y))/2;
+	display = display.toFixed(0);
+	document.getElementById("wheel-scale-display").innerHTML = "wheel radius: " + display;
+
+	resizeTires(value);
+}
+
+function resizeTires(value) {
+	var geom = g_map.get("example_tire").geometry.clone();
+	var scale = value/100;
+
+	geom.scale(scale, scale, g_scale_3);
+
+	g_map.get("tire_lf").geometry = geom.clone();
+	g_map.get("tire_rf").geometry = geom.clone();
+	g_map.get("tire_lr").geometry = geom.clone();
+	g_map.get("tire_rr").geometry = geom.clone();
+	//var display = g_map.get("tire_lf").geometry.boundingSphere.radius;
+	var display = ((g_map.get("tire_lf").geometry.boundingBox.max.y) - (g_map.get("tire_lf").geometry.boundingBox.min.y))/2;
+	display = display.toFixed(0);
+	document.getElementById("wheel-scale-display-2").innerHTML = "tire radius: " + display;
+}
+
+function changeWheelGeometryWidth(value) {
+	var geom = g_map.get("example_wheel").geometry.clone();
+	var scale = value/100;
+
+	g_scale_3 = scale;
+
+	geom.scale(g_scale_1, g_scale_2, scale);
+
+	g_map.get("wheel_lf").geometry = geom.clone();
+	g_map.get("wheel_rf").geometry = geom.clone();
+	g_map.get("wheel_lr").geometry = geom.clone();
+	g_map.get("wheel_rr").geometry = geom.clone();
+	//var display = g_map.get("wheel_lf").geometry.boundingSphere.radius;
+	var display = ((g_map.get("wheel_lf").geometry.boundingBox.max.z) - (g_map.get("wheel_lf").geometry.boundingBox.min.z));
+	display = display.toFixed(0);
+	document.getElementById("wheel-scale-width").innerHTML = "wheel/tire width: " + display;
+
+	changeTireGeometryWidth(value);
+}
+
+function changeTireGeometryWidth(value) {
+	var geom = g_map.get("example_tire").geometry.clone();
+	var scale = value/100;
+
+	geom.scale(g_scale_1, g_scale_2, scale);
+
+	g_map.get("tire_lf").geometry = geom.clone();
+	g_map.get("tire_rf").geometry = geom.clone();
+	g_map.get("tire_lr").geometry = geom.clone();
+	g_map.get("tire_rr").geometry = geom.clone();
+	//var display = g_map.get("tire_lf").geometry.boundingSphere.radius;
+	var display = ((g_map.get("tire_lf").geometry.boundingBox.max.z) - (g_map.get("tire_lf").geometry.boundingBox.min.z));
+	display = display.toFixed(0);
 }
 
 function tradeSpace() {
@@ -789,6 +866,7 @@ function reopen3D() {
 	document.getElementById("menu").style.display = "block";
 	document.getElementById("div1").style.display = "block";
 	document.getElementById("screenshot").style.display = "none";
+	document.getElementById("collage-controls").style.display = "none";
 
 	var change_button = document.getElementById("tradespace");
 	change_button.setAttribute("onclick", "goBackToCollage()");
