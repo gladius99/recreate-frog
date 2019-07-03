@@ -224,3 +224,29 @@ mytag {
   	display: inline-block;
   	font-size: 14px;
 }
+
+.myrow {
+  display: none; 
+  float: none; 
+  text-align: left; 
+  float: left; 
+  padding-left: 20px; 
+  background-color: #D5E9FF;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  height: 30px;
+}
+
+.control_buttons_tab {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: /*#0096ce#2471FF#1c73ff#3582ff#00005a*/#2196F3;
+    border: none;
+    color: white;
+    padding: 3px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    height: 50px;
+    outline: none;
+}

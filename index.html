@@ -18,73 +18,69 @@
   	<script type="text/javascript" src="importJSON.js"></script>
   	<link rel="stylesheet" href="style.css">
 </head>
-<body style="background-color: #D5E9FF;">
+<body style="background-color: black;" id="body">
 	<div id="menu">
-		<p style="text-align: center" id="row1">
-			<!--
-			<input type="checkbox" name="body1" id="checkbox1" onclick="addOrRemoveElements('body2', 'checkbox1')" class="styled-checkbox">panels</input>
-			<input type="checkbox" name="body2" id="checkbox2" onclick="addOrRemoveElements('body1', 'checkbox2')">frame</input>
-			<input type="checkbox" name="engine" id="checkbox3" onclick="addOrRemoveElements('engine', 'checkbox3')">engine</input>
-			<input type="checkbox" name="transmission" id="checkbox4" onclick="addOrRemoveElements('transmission', 'checkbox4')">transmission</input>
-			<input type="checkbox" name="wheels" id="checkbox5" onclick="addOrRemoveElements('wheels', 'checkbox5')">wheels</input>
-			<input type="checkbox" name="tires" id="checkbox6" onclick="addOrRemoveElements('tires', 'checkbox6')">tires</input>
-		-->
-
-			<label class="container">panels
-			  	<input type="checkbox" name="body1" id="checkbox1" onclick="addOrRemoveElements('body2', 'checkbox1')" class="styled-checkbox"></input>
-			  	<span class="checkmark"></span>
-			</label>
-			<label class="container">frame
-			  	<input type="checkbox" name="body2" id="checkbox2" onclick="addOrRemoveElements('body1', 'checkbox2')"></input>
-			  	<span class="checkmark"></span>
-			</label>
-			<label class="container">engine
-			 	<input type="checkbox" name="engine" id="checkbox3" onclick="addOrRemoveElements('engine', 'checkbox3')"></input>
-			  	<span class="checkmark"></span>
-			</label>
-			<label class="container">transmission
-			  	<input type="checkbox" name="transmission" id="checkbox4" onclick="addOrRemoveElements('transmission', 'checkbox4')"></input>
-			  	<span class="checkmark"></span>
-			</label>
-			<label class="container">wheels
-			  	<input type="checkbox" name="wheels" id="checkbox5" onclick="addOrRemoveElements('wheels', 'checkbox5')"></input>
-			  	<span class="checkmark"></span>
-			</label>  	
-			<label class="container">tires
-			  	<input type="checkbox" name="tires" id="checkbox6" onclick="addOrRemoveElements('tires', 'checkbox6')"></input>
-			  	<span class="checkmark"></span>
-			</label>
-
-			<button onclick="
-			saveAsImage() 
-			" class="control_buttons">take screenshot</button>
-			<input type="range" min="0" max="1" value="0" id="red" step=".01" oninput="changeColor()" class="slider"></input>
-			<mytag style="padding-right: 20px">red</mytag>
-			<input type="range" min="0" max="1" value="0" id="green" step=".01" oninput="changeColor()" class="slider"></input>
-			<mytag style="padding-right: 20px">green</mytag>
-			<input type="range" min="0" max="1" value="0" id="blue" step=".01" oninput="changeColor()" class="slider"></input>
-			<mytag style="padding-right: 20px">blue</mytag>
-			<mytag style="padding: 10px" id="redd">red: 000</mytag>
-			<mytag style="padding: 10px" id="greenn">green: 000</mytag>
-			<mytag style="padding: 10px" id="bluee">blue: 000</mytag>
-		</p>
-		<p style="text-align: center" id="row2">
-			<input type="range" min="150" max="300" value="218" id="tire-contact-point-length" oninput="changeTireLength(document.getElementById('tire-contact-point-length').value)" class="slider"></input>
-			<mytag style = "padding-right: 20px">tire contact point length</mytag>
-			<input type="range" min="100" max="250" value="150" id="tire-contact-point-width" oninput="changeTireWidth(document.getElementById('tire-contact-point-width').value)" class="slider"></input>
-			<mytag style="padding-right: 20px">tire contact point width</mytag>
-			<mytag style="padding: 10px" id="length">length: 218</mytag>
-			<mytag style="padding: 10px" id="width">width: 150</mytag>
-			<button onclick="importTheStuff()" id="tradespace" class="control_buttons">tradespace</button>
-		</p>
-		<p style="text-align: center" id="row3">
-			<input type="range" min="75" max="200" value="100" id="wheel-scale" oninput="resizeWheels(document.getElementById('wheel-scale').value)" class="slider"></input>
-			<mytag style="padding-right: 20px">wheel radius</mytag>
-			<input type="range" min="50" max="200" value="100" id="wheel-width" oninput="changeWheelGeometryWidth(document.getElementById('wheel-width').value)" class="slider">wheel width</input>
-			<mytag id="wheel-scale-display" style="padding: 10px">wheel radius: 23</mytag>
-			<mytag id="wheel-scale-display-2" style="padding: 10px">tire radius: 35</mytag>
-			<mytag id="wheel-scale-width" style="padding: 10px">wheel/tire width: 24</mytag>
-		</p>
+			<button onclick="displayRow(0)" class="control_buttons_tab" style="float: left">checkboxes</button>
+			<button onclick="displayRow(1)" class="control_buttons_tab" style="float: left">color</button>
+			<button onclick="displayRow(2)" class="control_buttons_tab" style="float: left">position</button>
+			<button onclick="displayRow(3)" class="control_buttons_tab" style="float: left;">morph</button>
+			<mytag style="display: none; float: none; text-align: left; float: left; padding-left: 20px; background-color: #D5E9FF" id="mytag1" class="myrow">
+				<label class="container">panels
+				  	<input type="checkbox" name="body1" id="checkbox1" onclick="addOrRemoveElements('body2', 'checkbox1')" class="styled-checkbox"></input>
+				  	<span class="checkmark"></span>
+				</label>
+				<label class="container">frame
+				  	<input type="checkbox" name="body2" id="checkbox2" onclick="addOrRemoveElements('body1', 'checkbox2')"></input>
+				  	<span class="checkmark"></span>
+				</label>
+				<label class="container">engine
+				 	<input type="checkbox" name="engine" id="checkbox3" onclick="addOrRemoveElements('engine', 'checkbox3')"></input>
+				  	<span class="checkmark"></span>
+				</label>
+				<label class="container">transmission
+				  	<input type="checkbox" name="transmission" id="checkbox4" onclick="addOrRemoveElements('transmission', 'checkbox4')"></input>
+				  	<span class="checkmark"></span>
+				</label>
+				<label class="container">wheels
+				  	<input type="checkbox" name="wheels" id="checkbox5" onclick="addOrRemoveElements('wheels', 'checkbox5')"></input>
+				  	<span class="checkmark"></span>
+				</label>  	
+				<label class="container">tires
+				  	<input type="checkbox" name="tires" id="checkbox6" onclick="addOrRemoveElements('tires', 'checkbox6')"></input>
+				  	<span class="checkmark"></span>
+				</label>
+				<button onclick="
+				saveAsImage() 
+				" class="control_buttons">take screenshot</button>
+				<button onclick="importTheStuff()" id="tradespace" class="control_buttons">tradespace</button>
+			</mytag>	
+			<mytag id="mytag2" class="myrow">
+				<input type="range" min="0" max="1" value="0" id="red" step=".01" oninput="changeColor()" class="slider"></input>
+				<mytag style="padding-right: 20px">red</mytag>
+				<input type="range" min="0" max="1" value="0" id="green" step=".01" oninput="changeColor()" class="slider"></input>
+				<mytag style="padding-right: 20px">green</mytag>
+				<input type="range" min="0" max="1" value="0" id="blue" step=".01" oninput="changeColor()" class="slider"></input>
+				<mytag style="padding-right: 20px">blue</mytag>
+				<mytag style="padding: 10px" id="redd">red: 000</mytag>
+				<mytag style="padding: 10px" id="greenn">green: 000</mytag>
+				<mytag style="padding: 10px" id="bluee">blue: 000</mytag>
+			</mytag>	
+			<mytag id="mytag3" class="myrow">
+				<input type="range" min="150" max="300" value="218" id="tire-contact-point-length" oninput="changeTireLength(document.getElementById('tire-contact-point-length').value)" class="slider"></input>
+				<mytag style = "padding-right: 20px">tire contact point length</mytag>
+				<input type="range" min="100" max="250" value="150" id="tire-contact-point-width" oninput="changeTireWidth(document.getElementById('tire-contact-point-width').value)" class="slider"></input>
+				<mytag style="padding-right: 20px">tire contact point width</mytag>
+				<mytag style="padding: 10px" id="length">length: 218</mytag>
+				<mytag style="padding: 10px" id="width">width: 150</mytag>
+			</mytag>	
+			<mytag id="mytag4" class="myrow">
+				<input type="range" min="75" max="200" value="100" id="wheel-scale" oninput="resizeWheels(document.getElementById('wheel-scale').value)" class="slider"></input>
+				<mytag style="padding-right: 20px">wheel radius</mytag>
+				<input type="range" min="50" max="200" value="100" id="wheel-width" oninput="changeWheelGeometryWidth(document.getElementById('wheel-width').value)" class="slider">wheel width</input>
+				<mytag id="wheel-scale-display" style="padding: 10px">wheel radius: 23</mytag>
+				<mytag id="wheel-scale-display-2" style="padding: 10px">tire radius: 35</mytag>
+				<mytag id="wheel-scale-width" style="padding: 10px">wheel/tire width: 24</mytag>
+			</mytag>
 	</div>
 	<div id="div1"></div>
 	<div id="collage-controls" style="padding-bottom: 5px;"></div>

@@ -252,6 +252,8 @@ function changeColor() {
   	g_scene.background = new THREE.Color( 0x000000 );
 	g_scene.background.setRGB(red, green, blue);
 
+	document.getElementById("body").style.backgroundColor = "rgb(" + red*255 + ", " + green*255 + ", "+ blue*255 + ")";
+
 	red=parseInt(red*=100);
 	green=parseInt(green*=100);
 	blue=parseInt(blue*=100);
@@ -621,6 +623,7 @@ function saveImageToServer() {
 function setUpScreenForCollage() {
 	document.getElementById("menu").style.display = "none";
 	document.getElementById("div1").style.display = "none";
+	document.getElementById("body").style.backgroundColor = "black";
 	var button = document.createElement("BUTTON");
 	button.setAttribute("onclick", "takeScreenShot()");
 	button.setAttribute("id", "screenshot-button");
@@ -868,6 +871,17 @@ function reopen3D() {
 	document.getElementById("screenshot").style.display = "none";
 	document.getElementById("collage-controls").style.display = "none";
 
+	for(var i = 0; i < 4; i++) {
+		document.getElementsByClassName("myrow")[i].style.display = "none";
+		document.getElementsByClassName("control_buttons_tab")[i].style.backgroundColor = "#2196F3";
+	}
+
+	document.getElementById("body").style.backgroundColor = "black";
+
+	document.getElementById("red").value = 0;
+	document.getElementById("green").value = 0;
+	document.getElementById("blue").value = 0;
+
 	var change_button = document.getElementById("tradespace");
 	change_button.setAttribute("onclick", "goBackToCollage()");
 	change_button.innerHTML = "back to collage";
@@ -964,4 +978,22 @@ function replacePicture() {
    		var picture_source = g_picture_map.get(g_picture_id).src;
    		document.getElementById(g_picture_id).setAttribute("src", picture_source);
    	}, 3);
+}
+
+function displayRow(index) {
+	for(var i = 0; i < 4; i++) {
+		if(i==index) {
+			if(document.getElementsByClassName("myrow")[i].style.display == "block") {
+				document.getElementsByClassName("myrow")[i].style.display = "none";
+				document.getElementsByClassName("control_buttons_tab")[i].style.backgroundColor = "#2196F3";
+			} else {
+				document.getElementsByClassName("myrow")[i].style.display = "block";
+				document.getElementsByClassName("control_buttons_tab")[i].style.backgroundColor = "#1a65a1";
+				console.log(document.getElementsByClassName("control_buttons_tab")[i].style.backgroundColor);
+			}
+		} else {
+			document.getElementsByClassName("myrow")[i].style.display = "none";
+			document.getElementsByClassName("control_buttons_tab")[i].style.backgroundColor = "#2196F3";
+		}
+	}
 }
