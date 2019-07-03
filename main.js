@@ -927,6 +927,11 @@ function goBackToCollage() {
 	document.getElementById("collage-controls").style.display = "block";
 	document.getElementById("screenshot").style.display = "block";
 
+	document.getElementById("body").style.backgroundColor = "black";
+	document.getElementById("red").value = 0;
+	document.getElementById("green").value = 0;
+	document.getElementById("blue").value = 0;
+
 	var change_picture = g_picture_map.get(g_picture_id);
 
 	replacePicture();
