@@ -10,7 +10,7 @@
 }
 
 .modal_content {
-	background-color: #D5E9FF;
+	color: /*#0D5E9FF*/#000;
 	margin: 5% auto;
 	padding: 20px;
 	width: 90%;
@@ -56,7 +56,7 @@ input:hover, button:hover {
 }
 
 .smaller_modal_content {
-	background-color: #f4f4f4;
+	background-color: #D5E9FF;
 	margin: 5%;
 	padding: 20px;
 	display: inline-block;
@@ -77,9 +77,11 @@ input:hover, button:hover {
   	text-align: center;
   	text-decoration: none;
   	display: inline-block;
-  	font-size: 16px;
+	font-size: 16px;
+	margin: 5px;
 }
 
+/*
 
 #screenshot-button {
 	background-color: #2196F3;
@@ -91,6 +93,8 @@ input:hover, button:hover {
   	display: inline-block;
   	font-size: 13px;
 }
+
+*/
 
 .slider {
 	-webkit-appearance: none;
@@ -249,4 +253,15 @@ mytag {
     font-size: 14px;
     height: 50px;
     outline: none;
+}
+
+#table {
+	display: none;
+	width: 100%;
+	height: 100%;
+	background-color: #eee;
+}
+
+#table_button:hover {
+	cursor: pointer;
 }

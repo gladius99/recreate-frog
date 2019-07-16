@@ -1,0 +1,11 @@
+{
+"case_0": { "length": 150, "width": 100},
+"case_1": { "length": 150, "width": 160},
+"case_2": { "length": 150, "width": 220},
+"case_3": { "length": 210, "width": 100},
+"case_4": { "length": 210, "width": 160},
+"case_5": { "length": 210, "width": 220},
+"case_6": { "length": 270, "width": 100},
+"case_7": { "length": 270, "width": 160},
+"case_8": { "length": 270, "width": 220}
+}

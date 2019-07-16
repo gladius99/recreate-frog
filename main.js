@@ -57,6 +57,12 @@ var g_scale_1 = 1;
 var g_scale_2 = 1;
 var g_scale_3 = 1;
 
+//global variables for tab buttons
+var g_tab = [false, false, false, false];
+var g_tab_map = new Map();
+
+//global variables for table
+var table_activated = false;
 
 function init() {
 	document.getElementById("checkbox1").checked = true;
@@ -67,6 +73,8 @@ function init() {
 	document.getElementById("checkbox6").checked = true;
 
 	document.body.scrollTop = document.documentElement.scrollTop = 0;
+
+	var visible = false;
 }
 
 function loadAndRender() {
@@ -370,7 +378,7 @@ function loadAndRenderTiresAndWheels() {
   		g_scene.add(g_map.get("tire_rf"));
   		g_scene.add(g_map.get("tire_lr"));
   		g_scene.add(g_map.get("tire_rr"));
-	}, 500);
+	}, 600);
 }
 
 function changeTireLength(value) {
@@ -572,6 +580,24 @@ function tradeSpace() {
 	setTimeout(function() {setUpScreenForCollage()}, 1000);
 }
 
+function tradeSpace3() {
+	var j = 0;
+
+	var length = Object.keys(data).length;
+
+	for(var i = 0; i < length; i++) {
+		
+		setTimeout(function() {
+			changeTireLength(data["case_"+j].length);
+			changeTireWidth(data["case_"+j].width);
+			j++;
+			saveImageToServer();
+		}, (i*100)+1);	
+	}
+
+	setUpScreenForCollage();
+}
+
 function saveImageToServer() {
 	tempCamera = g_camera;
 	temp_r = document.getElementById("red").value;
@@ -623,15 +649,15 @@ function saveImageToServer() {
 function setUpScreenForCollage() {
 	document.getElementById("menu").style.display = "none";
 	document.getElementById("div1").style.display = "none";
-	document.getElementById("body").style.backgroundColor = "black";
-	var button = document.createElement("BUTTON");
-	button.setAttribute("onclick", "takeScreenShot()");
-	button.setAttribute("id", "screenshot-button");
-	button.innerHTML = "screenshot";
-	document.getElementById("collage-controls").appendChild(button);
+	document.getElementById("body").style.backgroundColor = "rgb(0, 0, 0)"
+	document.getElementById("red").value = 0;
+	document.getElementById("green").value = 0;
+	document.getElementById("blue").value = 0;
 }
 
 var takeScreenShot = function() {
+	document.getElementById("screenshot").removeChild(document.getElementById("modal"));
+
     html2canvas(document.getElementById("screenshot"), {
         onrendered: function (canvas) {
             var tempcanvas=document.createElement('canvas');
@@ -644,7 +670,7 @@ var takeScreenShot = function() {
             link.download = 'frog-tradespace.jpg';
             link.click();
         }
-    });
+	});
 }
 
 function createSmallerModal(id, name) {
@@ -663,7 +689,7 @@ function createSmallerModal(id, name) {
 	closeBtn.setAttribute("onclick", "closeModal()");
 
 	//the modal itself
-	modal_content.setAttribute("class", "smaller_modal_content");
+	modal_content.setAttribute("class", "smaller_modal_content animated zoomInUp fast");
 	modal_content.setAttribute("id", "modal_content");
 	modal_content.appendChild(closeBtn);
 
@@ -815,6 +841,22 @@ function createSmallerModal(id, name) {
 	threeD_button.innerHTML = "open in 3d";
 	document.getElementById("modal_content").appendChild(threeD_button);
 
+	//button to pull up table
+	var table_button = document.createElement("buton");
+	table_button.setAttribute("id", "table_button");
+	table_button.setAttribute("class", "threeD_button");
+	table_button.setAttribute("onclick", "pullUpTable()");
+	table_button.innerHTML = "table";
+	document.getElementById("modal_content").appendChild(table_button);
+
+	//put screenshot button here
+	var screenshot_button = document.createElement("BUTTON");
+	screenshot_button.setAttribute("onclick", "takeScreenShot()");
+	screenshot_button.setAttribute("id", "screenshot-button");
+	screenshot_button.setAttribute("class", "threeD_button");
+	screenshot_button.innerHTML = "screenshot";
+	document.getElementById("modal_content").appendChild(screenshot_button);
+
 	//init values of width and height sliders
 	document.getElementById("height_slider").value = document.getElementById(g_picture_id).height;
 	document.getElementById("width_slider").value = document.getElementById(g_picture_id).width;
@@ -822,7 +864,8 @@ function createSmallerModal(id, name) {
 }
 
 function closeModal() {
-	document.getElementById("screenshot").removeChild(document.getElementById("modal"));
+	document.getElementById("modal_content").setAttribute("class", "smaller_modal_content animated slideOutDown faster")
+	setTimeout(function() {document.getElementById("screenshot").removeChild(document.getElementById("modal"));}, 500);
 }
 
 function changePictureSize(value) {
@@ -856,7 +899,8 @@ function changePictureHeight(value) {
 function outsideClick(e) {
 	try {
 		if(e.target == modal) {
-			document.getElementById("screenshot").removeChild(document.getElementById("modal"));
+			document.getElementById("modal_content").setAttribute("class", "smaller_modal_content animated zoomOutDown faster")
+			setTimeout(function() {document.getElementById("screenshot").removeChild(document.getElementById("modal"));}, 500);	
 		} else {
 			//console.log("clicked outside of modal content");
 		}
@@ -970,8 +1014,8 @@ function replacePicture() {
 		newElement.setAttribute("class", "picture");
 		//document.getElementById("screenshot").appendChild(newElement);
 		g_picture_map.set("picture" + g_picture_name, newElement);
-		g_picture_map.set("length" + g_picture_name, g_length);
-		g_picture_map.set("width" + g_picture_name, g_width);
+		g_picture_map.set("length" + g_picture_name, parseInt(g_length));
+		g_picture_map.set("width" + g_picture_name, parseInt(g_width));
    	}, 1);
 
    	setTimeout(function() { 
@@ -986,19 +1030,78 @@ function replacePicture() {
 }
 
 function displayRow(index) {
+	var j = 0;
+
 	for(var i = 0; i < 4; i++) {
 		if(i==index) {
+			j = i;
 			if(document.getElementsByClassName("myrow")[i].style.display == "block") {
-				document.getElementsByClassName("myrow")[i].style.display = "none";
 				document.getElementsByClassName("control_buttons_tab")[i].style.backgroundColor = "#2196F3";
+				document.getElementsByClassName("myrow")[i].setAttribute("class", "myrow animated slideOutRight");
+				setTimeout(function() {
+					document.getElementsByClassName("myrow")[j].setAttribute("class", "myrow");	
+					document.getElementsByClassName("myrow")[j].style.display = "none";
+					g_tab[j] = false;
+				}, 500);
 			} else {
-				document.getElementsByClassName("myrow")[i].style.display = "block";
-				document.getElementsByClassName("control_buttons_tab")[i].style.backgroundColor = "#1a65a1";
-				console.log(document.getElementsByClassName("control_buttons_tab")[i].style.backgroundColor);
+				if(g_tab[0] == false && g_tab[1] == false && g_tab[2] == false && g_tab[3] == false) {
+					document.getElementsByClassName("myrow")[i].style.display = "block";
+					document.getElementsByClassName("myrow")[i].setAttribute("class", "myrow animated slideInRight fast");
+					setTimeout(function() {
+						document.getElementsByClassName("myrow")[j].setAttribute("class", "myrow");	
+						g_tab[j] = true;
+					}, 700);
+					g_tab[0] = false;
+					g_tab[1] = false;
+					g_tab[2] = false;
+					g_tab[3] = false;
+					g_tab[index] = true;
+					document.getElementsByClassName("control_buttons_tab")[i].style.backgroundColor = "#1a65a1";
+				} else {
+					document.getElementsByClassName("myrow")[i].style.display = "block";
+					document.getElementsByClassName("myrow")[i].setAttribute("class", "myrow animated pulse faster");
+					setTimeout(function() {
+						document.getElementsByClassName("myrow")[j].setAttribute("class", "myrow");	
+						g_tab[j] = true;
+					}, 700);
+					g_tab[0] = false;
+					g_tab[1] = false;
+					g_tab[2] = false;
+					g_tab[3] = false;
+					g_tab[index] = true;
+					document.getElementsByClassName("control_buttons_tab")[i].style.backgroundColor = "#1a65a1";	
+				}
 			}
 		} else {
 			document.getElementsByClassName("myrow")[i].style.display = "none";
 			document.getElementsByClassName("control_buttons_tab")[i].style.backgroundColor = "#2196F3";
 		}
 	}
+}
+
+function pullUpTable() {
+	if(table_activated == false) {
+		var button = document.createElement('button');
+		button.setAttribute('onclick', 'removeTable()');
+		document.getElementById('table').appendChild(button);
+		button.innerHTML = "back to pictures";
+		var br = document.createElement("br");
+		document.getElementById("table").appendChild(br);
+		table_activated = true;
+	}
+
+	document.getElementById("screenshot").style.display = "none";
+	document.getElementById("table").style.display = "block";
+	document.getElementById("collage-controls").style.display = "none";
+	document.getElementById("body").style.backgroundColor= "#eee";
+	for(var i = 0; i < (g_picture_map.size-1)/4; i++) {
+		document.getElementById("table").innerHTML += "length: " + (JSON.stringify(g_picture_map.get("length" + i)) + ". ");
+		document.getElementById("table").innerHTML += "width: " + (JSON.stringify(g_picture_map.get("width" + i)) + ".<br>");
+	
+	}
+}
+
+function removeTable() {
+	document.getElementById('table').style.display = 'none';
+	document.getElementById('screenshot').style.display = 'block';
 }

@@ -16,14 +16,15 @@
   	<script type="text/javascript" src="main.js"></script>
   	<script type="text/javascript" src="util.js"></script>
   	<script type="text/javascript" src="importJSON.js"></script>
-  	<link rel="stylesheet" href="style.css">
+	  <link rel="stylesheet" href="style.css">
+	  <link rel="stylesheet" href="animate.css"
 </head>
 <body style="background-color: black;" id="body">
 	<div id="menu">
-			<button onclick="displayRow(0)" class="control_buttons_tab" style="float: left">checkboxes</button>
-			<button onclick="displayRow(1)" class="control_buttons_tab" style="float: left">color</button>
-			<button onclick="displayRow(2)" class="control_buttons_tab" style="float: left">position</button>
-			<button onclick="displayRow(3)" class="control_buttons_tab" style="float: left;">morph</button>
+			<button onclick="displayRow(0)" class="control_buttons_tab" style="float: left" id="button0" >checkboxes</button>
+			<button onclick="displayRow(1)" class="control_buttons_tab" style="float: left" id="button1" >color</button>
+			<button onclick="displayRow(2)" class="control_buttons_tab" style="float: left" id="button2" >position</button>
+			<button onclick="displayRow(3)" class="control_buttons_tab" style="float: left" id="button3" >morph</button>
 			<mytag id="mytag1" class="myrow">
 				<label class="container">panels
 				  	<input type="checkbox" name="body1" id="checkbox1" onclick="addOrRemoveElements('body2', 'checkbox1')" class="styled-checkbox"></input>
@@ -85,6 +86,7 @@
 	<div id="div1"></div>
 	<div id="collage-controls" style="padding-bottom: 5px;"></div>
 	<div id="screenshot"></div>
+	<div id="table"</div>
 	<script type="text/javascript">
 		loadAndRender();
 		setTimeout(function(){ init(); }, 1000);

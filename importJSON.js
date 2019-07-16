@@ -9,5 +9,5 @@ function importTheStuff() {
         };
     xmlhttp.open("GET", "working-output.txt", true);
     xmlhttp.send();
-    setTimeout(function() { tradeSpace();}, 500);
+    setTimeout(function() { tradeSpace3();}, 500);
 }
