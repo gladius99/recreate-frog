@@ -265,3 +265,11 @@ mytag {
 #table_button:hover {
 	cursor: pointer;
 }
+
+.table_paragraph:hover {
+	cursor: pointer;
+}
+
+.table_paragraph {
+	padding: none;
+}

@@ -581,6 +581,8 @@ function tradeSpace() {
 }
 
 function tradeSpace3() {
+	console.log("starting tradespace...");
+
 	var j = 0;
 
 	var length = Object.keys(data).length;
@@ -592,6 +594,46 @@ function tradeSpace3() {
 			changeTireWidth(data["case_"+j].width);
 			j++;
 			saveImageToServer();
+
+			if(j == parseInt(length/10)) {
+				console.log("10%");
+			}
+			
+			if(j == parseInt(length/5)) {
+				console.log("20%");
+			}
+
+			if(j == parseInt(length*3/10)) {
+				console.log("30%");
+			}
+
+			if(j == parseInt(length*4/10)) {
+				console.log("40%");
+			}
+
+			if(j == parseInt(length*5/10)) {
+				console.log("50%");
+			}
+
+			if(j == parseInt(length*6/10)) {
+				console.log("60%");
+			}
+
+			if(j == parseInt(length*7/10)) {
+				console.log("70%");
+			}
+
+			if(j == parseInt(length*8/10)) {
+				console.log("80%");
+			}
+
+			if(j == parseInt(length*9/10)) {
+				console.log("90%");
+			}
+
+			if(j == length) {
+				console.log("done");
+			}
 		}, (i*100)+1);	
 	}
 
@@ -977,10 +1019,16 @@ function goBackToCollage() {
 	document.getElementById("blue").value = 0;
 
 	var change_picture = g_picture_map.get(g_picture_id);
+	g_picture_map.set("length" + g_picture_name, document.getElementById("tire-contact-point-length").value);
+	g_picture_map.set("width" + g_picture_name, document.getElementById("tire-contact-point-width").value);
 
 	replacePicture();
 
-	document.getElementById("screenshot").removeChild(document.getElementById("modal"));
+	try {
+		document.getElementById("screenshot").removeChild(document.getElementById("modal"));	
+	} catch {
+		//nothing
+	}
 
 	document.body.scrollTop = document.documentElement.scrollTop = 0;
 }
@@ -1080,28 +1128,49 @@ function displayRow(index) {
 }
 
 function pullUpTable() {
-	if(table_activated == false) {
-		var button = document.createElement('button');
-		button.setAttribute('onclick', 'removeTable()');
-		document.getElementById('table').appendChild(button);
-		button.innerHTML = "back to pictures";
-		var br = document.createElement("br");
-		document.getElementById("table").appendChild(br);
-		table_activated = true;
-	}
+	var button = document.createElement('button');
+	button.setAttribute('onclick', 'removeTable()');
+	document.getElementById('table').appendChild(button);
+	button.innerHTML = "back to pictures";
+	var br = document.createElement("br");
+	document.getElementById("table").appendChild(br);
+	table_activated = true;
 
 	document.getElementById("screenshot").style.display = "none";
 	document.getElementById("table").style.display = "block";
 	document.getElementById("collage-controls").style.display = "none";
 	document.getElementById("body").style.backgroundColor= "#eee";
 	for(var i = 0; i < (g_picture_map.size-1)/4; i++) {
-		document.getElementById("table").innerHTML += "length: " + (JSON.stringify(g_picture_map.get("length" + i)) + ". ");
-		document.getElementById("table").innerHTML += "width: " + (JSON.stringify(g_picture_map.get("width" + i)) + ".<br>");
-	
+		var p = document.createElement("p");
+
+		p.innerHTML += "case " + i + ": length: " + (JSON.stringify(g_picture_map.get("length" + i)) + ". ");
+		p.innerHTML += "width: " + (JSON.stringify(g_picture_map.get("width" + i)) + ".<br>");
+
+		p.setAttribute("id", i);
+		p.setAttribute("onclick", "tableLink(this.id)");
+		p.setAttribute("class", "table_paragraph");
+		
+		document.getElementById('table').appendChild(p);
 	}
 }
 
 function removeTable() {
 	document.getElementById('table').style.display = 'none';
 	document.getElementById('screenshot').style.display = 'block';
+	document.getElementById('table').innerHTML = null;
+
+	try {
+		document.getElementById("screenshot").removeChild(document.getElementById("modal"));	
+	} catch {
+		//nothing
+	}
+}
+
+function tableLink(id) {
+	g_picture_name = id;
+	g_picture_id = "picture" + id;
+	
+	removeTable();
+
+	reopen3D();
 }
